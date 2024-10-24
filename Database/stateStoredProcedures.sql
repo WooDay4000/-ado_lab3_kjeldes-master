@@ -43,4 +43,34 @@ BEGIN
     Select LAST_INSERT_ID() into custId;
     
 END //
-DELIMITER ; 
+DELIMITER ;
+
+DELIMITER // 
+CREATE PROCEDURE usp_CustomerDelete (in custID int, in conCurrId int)
+BEGIN
+	Delete from customers where customerID = custID and ConcurrencyID = conCurrId;
+END //
+DELIMITER ;
+
+DELIMITER // 
+CREATE PROCEDURE usp_CustomerSelect (in custID int)
+BEGIN
+	Select * from customers where customerID=custID;
+END //
+DELIMITER ;
+
+DELIMITER // 
+CREATE PROCEDURE usp_CustomerSelectAll ()
+BEGIN
+	Select * from customers order by name;
+END //
+DELIMITER ;
+
+DELIMITER // 
+CREATE PROCEDURE usp_CustomerUpdate (in custID int, in name varchar(20), in conCurrId int)
+BEGIN
+	Update customers
+    Set name = name, concurrencyid = (concurrencyid + 1)
+    Where customerID = custID and concurrencyid = conCurrId;
+END //
+DELIMITER ;

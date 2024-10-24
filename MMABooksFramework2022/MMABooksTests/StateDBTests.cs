@@ -12,6 +12,7 @@ using MySql.Data.MySqlClient;
 
 namespace MMABooksTests
 {
+    [TestFixture]
     public class StateDBTests
     {
         StateDB db;
