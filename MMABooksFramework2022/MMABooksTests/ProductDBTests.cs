@@ -6,12 +6,9 @@ using MMABooksDB;
 using DBCommand = MySql.Data.MySqlClient.MySqlCommand;
 using System.Data;
 
+using System.Collections.Generic;
 using System;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MMABooksTests
 {
@@ -20,11 +17,12 @@ namespace MMABooksTests
     {
         ProductDB db;
 
+        [SetUp]
         public void ResetData()
         {
             db = new ProductDB();
             DBCommand command = new DBCommand();
-            command.CommandText = "usp_testingResetData";
+            command.CommandText = "usp_testingResetProductData";
             command.CommandType = CommandType.StoredProcedure;
             db.RunNonQueryProcedure(command);
         }
@@ -32,8 +30,8 @@ namespace MMABooksTests
         [Test]
         public void TestRetrieve()
         {
-            ProductProps p = (ProductProps)db.Retrieve(1041);
-            Assert.AreEqual(1041, p.ProductID);
+            ProductProps p = (ProductProps)db.Retrieve(1);
+            Assert.AreEqual(1, p.ProductID);
             Assert.AreEqual("A4CS", p.ProductCode);
         }
 
@@ -47,59 +45,40 @@ namespace MMABooksTests
         [Test]
         public void TestDelete()
         {
-            ProductProps p = (ProductProps)db.Retrieve(1041);
+            ProductProps p = (ProductProps)db.Retrieve(1);
             Assert.True(db.Delete(p));
-            Assert.Throws<Exception>(() => db.Retrieve(1041));
+            Assert.Throws<Exception>(() => db.Retrieve(1));
         }
 
         [Test]
         public void TestUpdate()
         {
-            ProductProps p = (ProductProps)db.Retrieve(1041);
+            ProductProps p = (ProductProps)db.Retrieve(1);
             p.Description = "Book about coding!";
             Assert.True(db.Update(p));
-            p = (ProductProps)db.Retrieve(1041);
+            p = (ProductProps)db.Retrieve(1);
             Assert.AreEqual("Book about coding!", p.Description);
         }
 
         [Test]
         public void TestUpdateFieldTooLong()
         {
-            // Retrieve the product from the database
-            ProductProps p = (ProductProps)db.Retrieve(1041);
-
-            // Check if the retrieved product is null
-            if (p == null)
-            {
-                Assert.Fail("Product with ID 1041 not found.");
-            }
-
-            // Check if the Description field is not null before updating
-            if (p.Description == null)
-            {
-                Assert.Fail("Product description is null.");
-            }
-
-            // Attempt to update the product with an overly long description
-            p.Description = "abcdefghijklmnopqrstuoijshfghoiuhasdifhiaawdawdaddd";
-
-            // Expecting MySqlException to be thrown when updating with long description
+            ProductProps p = (ProductProps)db.Retrieve(1);
+            p.Description = "abcdefghijklmnopqrstuoijshfghoiuhasdifhiaawdawdaddw";
             Assert.Throws<MySqlException>(() => db.Update(p));
         }
-
 
         [Test]
         public void TestCreate()
         {
-            CustomerProps p = new CustomerProps();
-            p.Name = "Minnie Mouse";
-            p.Address = "101 Main Street";
-            p.City = "Orlando";
-            p.State = "FL";
-            p.ZipCode = "10001";
+            ProductProps p = new ProductProps();
+            p.ProductCode = "UHBI";
+            p.Description = "Book About Coding Or Whatever";
+            p.UnitPrice = 10.9900m;
+            p.OnHandQuantity = 350;
 
             db.Create(p);
-            CustomerProps p2 = (CustomerProps)db.Retrieve(p.CustomerID);
+            ProductProps p2 = (ProductProps)db.Retrieve(p.ProductID);
             Assert.AreEqual(p.GetState(), p2.GetState());
         }
     }
