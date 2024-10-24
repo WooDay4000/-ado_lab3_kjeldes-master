@@ -17,7 +17,7 @@ namespace MMABooksProps
         public int CustomerID { get; set; } = 0;
         public string Name { get; set; } = "";
         public string Address { get; set; } = "";
-        public string City { get; set; }
+        public string City { get; set; } = "";
         public string State { get; set; } = "";
         public string ZipCode { get; set; } = "";
 
@@ -48,14 +48,14 @@ namespace MMABooksProps
 
         public void SetState(string jsonString)
         {
-            CustomerProps p = JsonSerializer.Deserialize<CustomerProps>(jsonString);
-            this.CustomerID = p.CustomerID;
-            this.Name = p.Name;
-            this.Address = p.Address;
-            this.City = p.City;
-            this.State = p.State;
-            this.ZipCode = p.ZipCode;
-            this.ConcurrencyID = p.ConcurrencyID;
+            CustomerProps c = JsonSerializer.Deserialize<CustomerProps>(jsonString);
+            this.CustomerID = c.CustomerID;
+            this.Name = c.Name;
+            this.Address = c.Address;
+            this.City = c.City;
+            this.State = c.State;
+            this.ZipCode = c.ZipCode;
+            this.ConcurrencyID = c.ConcurrencyID;
         }
 
         public void SetState(DBDataReader dr)

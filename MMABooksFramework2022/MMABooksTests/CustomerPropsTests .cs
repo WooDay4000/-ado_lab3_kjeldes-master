@@ -26,6 +26,7 @@ namespace MMABooksTests
             string jsonString = props.GetState();
             Console.WriteLine(jsonString);
             // This one could be asked about. Maybe not needed?
+            // Didn't have it before
             Assert.IsTrue(jsonString.Contains(props.CustomerID.ToString()));
             Assert.IsTrue(jsonString.Contains(props.Name));
             Assert.IsTrue(jsonString.Contains(props.Address));

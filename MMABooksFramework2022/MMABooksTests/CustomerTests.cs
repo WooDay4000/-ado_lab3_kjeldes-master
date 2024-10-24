@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace MMABooksTests
 {
-    internal class CustomerTests
+    public class CustomerTests
     {
         [SetUp]
         public void TestResetDatabase()
