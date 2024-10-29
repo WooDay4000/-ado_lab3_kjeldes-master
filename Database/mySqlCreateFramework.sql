@@ -1,6 +1,12 @@
 CREATE DATABASE IF NOT EXISTS MMABooksFramework;
 USE MMABooksFramework;
 
+DROP table invoicelineitems;
+DROP table invoices;
+DROP table products;
+DROP table customers;
+DROP table states;
+
 CREATE TABLE IF NOT EXISTS Customers (
 	CustomerID int AUTO_INCREMENT Primary Key NOT NULL,
 	Name varchar(100) NOT NULL,

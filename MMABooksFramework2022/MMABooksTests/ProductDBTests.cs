@@ -81,5 +81,14 @@ namespace MMABooksTests
             ProductProps p2 = (ProductProps)db.Retrieve(p.ProductID);
             Assert.AreEqual(p.GetState(), p2.GetState());
         }
+
+        [Test]
+        public void TestCreatePrimaryKeyViolation()
+        {
+            ProductProps p = new ProductProps();
+            p.ProductID = 1;
+            p.ProductCode = "A4CS";
+            Assert.Throws<MySqlException>(() => db.Create(p));
+        }
     }
 }
