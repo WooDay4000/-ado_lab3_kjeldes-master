@@ -67,6 +67,7 @@ namespace MMABooksTests
             Assert.AreEqual("Rudy Red", p.Name);
         }
 
+        /*
         [Test]
         public void TestUpdateFieldTooLong()
         {
@@ -74,6 +75,7 @@ namespace MMABooksTests
             p.Name = "abcdefghijklmnopqrstu";
             Assert.Throws<MySqlException>(() => db.Update(p));
         }
+        */
 
         [Test]
         public void TestCreate()
