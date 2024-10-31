@@ -51,6 +51,13 @@ namespace MMABooksTests
         }
 
         [Test]
+        public void TestDeleteForeignKeyConstraint()
+        {
+            CustomerProps p = (CustomerProps)db.Retrieve(20);
+            Assert.Throws<MySqlException>(() => db.Delete(p));
+        }
+
+        [Test]
         public void TestUpdate()
         {
             CustomerProps p = (CustomerProps)db.Retrieve(1);
@@ -84,6 +91,9 @@ namespace MMABooksTests
         }
 
         [Test]
+        // Isn't producing an error even when it trys to create
+        // something unique, even then it doesn't produce anything.
+        // It works no matter what field you add.
         public void TestCreatePrimaryKeyViolation()
         {
             CustomerProps p = new CustomerProps();

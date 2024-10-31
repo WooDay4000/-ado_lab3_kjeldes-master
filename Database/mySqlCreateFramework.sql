@@ -37,7 +37,13 @@ CREATE TABLE IF NOT EXISTS Invoices(
     
 CREATE TABLE IF NOT EXISTS Products(
 	ProductID int Auto_increment Primary Key NOT NULL,
-	ProductCode char(10) NOT NULL,
+    -- Added UNIQUE to ProductCode because SQL doesn't
+    -- see it as a foreign key, and belives that
+    -- InvoiceLineItems doesn't have ProductCode
+    -- and that ProductCode isn't UNIQUE. So
+    -- added this and now it works.
+    -- 
+	ProductCode char(10) UNIQUE NOT NULL,
 	Description varchar(50) NOT NULL,
 	UnitPrice decimal(10,4) NOT NULL,
 	OnHandQuantity int NOT NULL,
@@ -929,10 +935,10 @@ ALTER TABLE Customers  ADD CONSTRAINT FK_Customers_States FOREIGN KEY(State)
 REFERENCES States (StateCode);
 
 ALTER TABLE InvoiceLineItems  ADD CONSTRAINT FK_InvoiceLineItems_Invoices FOREIGN KEY(InvoiceID)
-REFERENCES Invoices (InvoiceID)
-	ON UPDATE CASCADE
-	ON DELETE CASCADE;
+REFERENCES Invoices (InvoiceID);
+
+ALTER TABLE InvoiceLineItems ADD CONSTRAINT FK_InvoiceLineItems_Products FOREIGN KEY (ProductCode)
+REFERENCES Products(ProductCode);
 
 ALTER TABLE Invoices ADD  CONSTRAINT FK_Invoices_Customers FOREIGN KEY(CustomerID)
-REFERENCES Customers (CustomerID)
-	ON DELETE CASCADE;
+REFERENCES Customers (CustomerID);

@@ -80,10 +80,10 @@ namespace MMABooksTests
         [Test]
         public void TestDelete()
         {
-            Product p = new Product(5);
+            Product p = new Product(16);
             p.Delete();
             p.Save();
-            Assert.Throws<Exception>(() => new Product(5));
+            Assert.Throws<Exception>(() => new Product(16));
         }
 
         [Test]

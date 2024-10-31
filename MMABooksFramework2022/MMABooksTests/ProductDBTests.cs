@@ -45,9 +45,17 @@ namespace MMABooksTests
         [Test]
         public void TestDelete()
         {
-            ProductProps p = (ProductProps)db.Retrieve(1);
+            ProductProps p = (ProductProps)db.Retrieve(16);
             Assert.True(db.Delete(p));
-            Assert.Throws<Exception>(() => db.Retrieve(1));
+            Assert.Throws<Exception>(() => db.Retrieve(16));
+        }
+
+        [Test]
+        // This works now with that fix.
+        public void TestDeleteForeignKeyConstraint()
+        {
+            ProductProps p = (ProductProps)db.Retrieve(10);
+            Assert.Throws<MySqlException>(() => db.Delete(p));
         }
 
         [Test]
@@ -83,6 +91,9 @@ namespace MMABooksTests
         }
 
         [Test]
+        // Produces an error when it trys to make a object with
+        // the same ProductCode but not the ProductID for some reason
+        // even if it's a primary key. What?
         public void TestCreatePrimaryKeyViolation()
         {
             ProductProps p = new ProductProps();
