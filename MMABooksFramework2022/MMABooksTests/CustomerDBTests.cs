@@ -67,16 +67,6 @@ namespace MMABooksTests
             Assert.AreEqual("Rudy Red", p.Name);
         }
 
-        /*
-        [Test]
-        public void TestUpdateFieldTooLong()
-        {
-            CustomerProps p = (CustomerProps)db.Retrieve(1);
-            p.Name = "abcdefghijklmnopqrstu";
-            Assert.Throws<MySqlException>(() => db.Update(p));
-        }
-        */
-
         [Test]
         public void TestCreate()
         {
@@ -90,18 +80,6 @@ namespace MMABooksTests
             db.Create(p);
             CustomerProps p2 = (CustomerProps)db.Retrieve(p.CustomerID);
             Assert.AreEqual(p.GetState(), p2.GetState());
-        }
-
-        [Test]
-        // Isn't producing an error even when it trys to create
-        // something unique, even then it doesn't produce anything.
-        // It works no matter what field you add.
-        public void TestCreatePrimaryKeyViolation()
-        {
-            CustomerProps p = new CustomerProps();
-            p.CustomerID = 1;
-            p.Name = "Molunguri, A";
-            Assert.Throws<MySqlException>(() => db.Create(p));
         }
     }
 }

@@ -26,6 +26,11 @@ namespace MMABooksProps
         /// </summary>
         public int ConcurrencyID { get; set; } = 0;
 
+        // The Clone method will return a object,
+        // that will be a a copy of another CustomerProps
+        // object. With each field of the going to be
+        // copied object set to the matching fields of
+        // the going to be created object.
         public object Clone()
         {
             CustomerProps c = new CustomerProps();
@@ -39,6 +44,12 @@ namespace MMABooksProps
             return c;
         }
 
+        // The GetState method will return a string,
+        // that consists of a JSON-formatted string
+        // that is based on the object being used to
+        // call the GetState method. With
+        // JsonSerializer.Serialize turn the object into
+        // a JSON-formatted string.
         public string GetState()
         {
             string jsonString;
@@ -46,6 +57,11 @@ namespace MMABooksProps
             return jsonString;
         }
 
+        // The SetState method is called on a object
+        // turned JSON-formatted string variable, where
+        // it's deserialize, meaning the JSON-formatted string
+        // is turned back into a object with all
+        // it's original fields.
         public void SetState(string jsonString)
         {
             CustomerProps c = JsonSerializer.Deserialize<CustomerProps>(jsonString);
@@ -58,6 +74,11 @@ namespace MMABooksProps
             this.ConcurrencyID = c.ConcurrencyID;
         }
 
+        // The SetState method that takes a DBDataReader,
+        // a object that was taken from a server such
+        // as MySQL where it's converted to a CustomerProps
+        // object to now be used for whatever it is needed
+        // in this code.
         public void SetState(DBDataReader dr)
         {
             this.CustomerID = (int)dr["CustomerID"];

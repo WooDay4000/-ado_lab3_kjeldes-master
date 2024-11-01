@@ -9,6 +9,11 @@ using System.Data;
 
 namespace MMABooksBusiness
 {
+    // Creates a Customer class that inherits the
+    // fields, methods, and properties form the
+    // BaseBusiness class. An abstract class that isn't
+    // used to make an object but to consist of abstract
+    // methods.
     public class Customer : BaseBusiness
     {
         public int CustomerID
