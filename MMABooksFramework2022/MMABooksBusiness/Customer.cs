@@ -13,17 +13,28 @@ namespace MMABooksBusiness
     // fields, methods, and properties form the
     // BaseBusiness class. An abstract class that isn't
     // used to make an object but to consist of abstract
-    // methods.
+    // methods. With BaseBusiness providing functionality
+    // for business classes, such as handling properties,
+    // database connections, and business rules.
     public class Customer : BaseBusiness
     {
+        // Getter field of the CustomerID field
+        // of the CustomerProps object.
         public int CustomerID
         {
             get
             {
+                // Where it receive data from a CustomerProps object
+                // where it is a data model holding the actual
+                // values. With this being used to access and return
+                // the specific field listed, which for this one is
+                // customerID.
                 return ((CustomerProps)mProps).CustomerID;
             }
         }
 
+        // Getter and setter field of the Name field
+        // of the CustomerProps object.
         public String Name
         {
             get
@@ -33,23 +44,40 @@ namespace MMABooksBusiness
 
             set
             {
+                // Checks to see if there isn't already a value
+                // set to this field. Where if there isn't
+                // then it will set the new value being inputted
+                // to this field.
                 if (!(value == ((CustomerProps)mProps).Name))
                 {
                     if (value.Trim().Length >= 1 && value.Trim().Length <= 100)
                     {
+                        // Then will it set the mRules.RuleBroken to false
+                        // saying that the value entered is valid, so that
+                        // it's able to set this value to a specific field
+                        // of this object.  
                         mRules.RuleBroken("Name", false);
                         ((CustomerProps)mProps).Name = value;
+                        // Then setting mIsDirty to false to track that this
+                        // object was modified from it's last saved state.
                         mIsDirty = true;
                     }
 
                     else
                     {
+                        // Where if the value entered isn't in the range we
+                        // want, specified in the if part of if else statement,
+                        // then then it will throw an ArgumentOutOfRangeException
+                        // with a massage about what is allowed or needed for
+                        // the values to be set to the CustomerProps object.
                         throw new ArgumentOutOfRangeException("Name must be no more than 100 characters long.");
                     }
                 }
             }
         }
 
+        // Getter and setter field of the Address field
+        // of the CustomerProps object.
         public String Address
         {
             get
@@ -76,6 +104,8 @@ namespace MMABooksBusiness
             }
         }
 
+        // Getter and setter field of the City field
+        // of the CustomerProps object.
         public String City
         {
             get
@@ -102,6 +132,8 @@ namespace MMABooksBusiness
             }
         }
 
+        // Getter and setter field of the State field
+        // of the CustomerProps object.
         public String State
         {
             get
@@ -128,6 +160,8 @@ namespace MMABooksBusiness
             }
         }
 
+        // Getter and setter field of the ZipCode field
+        // of the CustomerProps object.
         public String ZipCode
         {
             get
@@ -154,6 +188,13 @@ namespace MMABooksBusiness
             }
         }
 
+        // The GetList method is used to get a list of Customer Objects
+        // using the RetrieveAll method to get a list of the current
+        // customer records, turn them into CustomerProps objects, add
+        // them to CustomerProps list, which is then ran though a foreach
+        // loop that goes though each CustomerProps object and sets it to a
+        // Customer object that is then added to Customer object list that
+        // is then returned to where this method is called.
         public override object GetList()
         {
             List<Customer> customers = new List<Customer>();
@@ -176,6 +217,15 @@ namespace MMABooksBusiness
             // them for the constructors
         }
 
+        // The SetRequiredRules method defines business rules
+        // for required fields, marking each one as initially
+        // "broken" or invalid using mRules.RuleBroken with
+        // the field name and a true value. This indicates
+        // that these fields are required but currently lack
+        // valid data. When a valid value is assigned to one
+        // of these fields, RuleBroken is updated to false,
+        // meaning the field now satisfies the rule and the
+        // object can be considered valid for saving.
         protected override void SetRequiredRules()
         {
             mRules.RuleBroken("Name", true);
@@ -185,15 +235,35 @@ namespace MMABooksBusiness
             mRules.RuleBroken("ZipCode", true);
         }
 
+        // The SetUp method is used to initialize essential
+        // fields and properties for the Customer class to
+        // handle data and to interact with a database.
         protected override void SetUp()
         {
+            // With this creating a instance of the CustomerProps
+            // assigned to mProps where the current values
+            // of the customer’s data are held. Being used to
+            // interact with and manage data related to an
+            // individual Customer record.
             mProps = new CustomerProps();
+            // With this one is a separate instance of CustomerProps
+            // assigned to mOldProps where it's used to store the
+            // original data values of a Customer record before any changes
+            // where made. Used to revert changes and tracking before
+            // the record is saved to the database.
             mOldProps = new CustomerProps();
 
+            // This creates an instance of the CustomerDB assigned
+            // to mdbReadable, so the Customer object can use the Retrieve
+            // and ReceiveAll method to be able fetch customer
+            // data from the database.
             mdbReadable = new CustomerDB();
+            // This creates another instance of CustomerDB but
+            // now assigned to mdbWriteable, so the Customer object
+            // can use the Create, Update, and Delete method
+            // to be able to interact with database.
             mdbWriteable = new CustomerDB();
         }
-
         #region constructors
         /// <summary>
         /// Default constructor - gets the connection string - assumes a new record that is not in the database.

@@ -115,9 +115,9 @@ namespace MMABooksDB
             // this being what the field is called and the
             // data type that is being used.
             // ----------------------------
-            // With the custId one of this being an 
+            // With the custId one of this being used as a 
             // output parameter which after the command runs
-            // it will be set to the a automatically created
+            // it will be set to the automatically created
             // CustomerID that the databased created for the
             // Customer record.
             command.Parameters.Add("custId", DBDbType.Int32);
@@ -150,7 +150,7 @@ namespace MMABooksDB
                 // Where then the created command is ran using
                 // RunNonQueryProcedure that will interact and
                 // performs it's specified procedure and set the
-                // rowsAffected with a int value if it worked.
+                // rowsAffected with a int value of 1 if it worked.
                 rowsAffected = RunNonQueryProcedure(command);
                 if (rowsAffected == 1)
                 {
@@ -159,13 +159,16 @@ namespace MMABooksDB
                     // CustomerID that was made by the database.
                     props.CustomerID = (int)command.Parameters[0].Value;
                     props.ConcurrencyID = 1;
-                    // This it returns the CustomerProps with the
+                    // Then it returns the CustomerProps object with the
                     // the created CustomerID and the ConcurrencyID
                     // set to the corresponding felids.
                     return props;
                 }
                 else
-                    // If it failed then it will throw an Exception.
+                    // If it failed then it will throw an Exception, with
+                    // a message that includes CustomerProps object
+                    // with it's current fields in string format to
+                    // help with debugging.
                     throw new Exception("Unable to insert record. " + props.ToString());
             }
             catch (Exception e)
@@ -186,7 +189,7 @@ namespace MMABooksDB
         // record from a database where is calls a stored
         // procedure in the database called usp_CustomerDelete
         // where if the entered CustomerID and ConcurrencyID
-        // of a IBaseProps object matches those value in field
+        // of a IBaseProps object matches those values in field
         // of a given Customer record then it will be delated.
         public bool Delete(IBaseProps p)
         {
@@ -317,9 +320,9 @@ namespace MMABooksDB
         // The Update method is used to update the fields of
         // a Customer record in the Customers Table of the
         // database, using the stored procedure usp_CustomerUpdate
-        // where if the fields of record matches the inputted
+        // where if the fields of the record matches the inputted
         // CustomerID and ConcurrencyID, then it will update
-        // the name of the Customer record.
+        // the name field of the Customer record.
         public bool Update(IBaseProps p)
         {
             int rowsAffected = 0;

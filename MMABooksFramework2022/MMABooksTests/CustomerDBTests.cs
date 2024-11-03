@@ -68,7 +68,7 @@ namespace MMABooksTests
         // method to grab a already existing record, then using
         // the Delete method, then using Retrieve method again on the
         // same record checking to see if it throws an error
-        // since the record should not exist anymore..
+        // since the record should not exist anymore.
         public void TestDelete()
         {
             CustomerProps p = (CustomerProps)db.Retrieve(1);

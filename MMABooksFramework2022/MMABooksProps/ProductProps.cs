@@ -68,7 +68,7 @@ namespace MMABooksProps
             this.ProductCode = p.ProductCode;
             this.Description = p.Description;
             this.UnitPrice = p.UnitPrice;
-            this.OnHandQuantity= p.OnHandQuantity;
+            this.OnHandQuantity = p.OnHandQuantity;
             this.ConcurrencyID = p.ConcurrencyID;
         }
 
