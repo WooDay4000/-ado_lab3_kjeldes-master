@@ -175,7 +175,7 @@ namespace MMABooksTests
         // when only some of the required fields are set.
         public void TestSomeRequiredPropertiesNotSet()
         {
-            // not in Data Store - abbreviation and name must be provided
+            // not in Data Store - all fields must be provided
             Customer c = new Customer();
             Assert.Throws<Exception>(() => c.Save());
             c.Name = "Garber Newman";

@@ -153,7 +153,7 @@ namespace MMABooksBusiness
 
                     else
                     {
-                        throw new ArgumentOutOfRangeException("OnHandQuantity must be a postive int.");
+                        throw new ArgumentOutOfRangeException("OnHandQuantity must be a positive int.");
                     }
                 }
             }

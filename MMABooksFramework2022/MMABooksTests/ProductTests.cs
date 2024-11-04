@@ -154,7 +154,7 @@ namespace MMABooksTests
         // tries to save a Product record to the database.
         public void TestNoRequiredPropertiesNotSet()
         {
-            // not in Data Store - abbreviation and name must be provided
+            // not in Data Store - all fields must be provided
             Product p = new Product();
             Assert.Throws<Exception>(() => p.Save());
         }
