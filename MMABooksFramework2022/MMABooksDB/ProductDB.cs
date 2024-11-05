@@ -290,10 +290,10 @@ namespace MMABooksDB
             command.CommandText = "usp_ProductUpdate";
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("prodId", DBDbType.VarChar);
-            command.Parameters.Add("description", DBDbType.VarChar);
+            command.Parameters.Add("description_p", DBDbType.VarChar);
             command.Parameters.Add("conCurrId", DBDbType.Int32);
             command.Parameters["prodId"].Value = props.ProductID;
-            command.Parameters["description"].Value = props.Description;
+            command.Parameters["description_p"].Value = props.Description;
             command.Parameters["conCurrId"].Value = props.ConcurrencyID;
 
             try

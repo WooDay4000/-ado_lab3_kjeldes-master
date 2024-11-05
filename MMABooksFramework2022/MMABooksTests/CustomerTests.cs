@@ -52,7 +52,6 @@ namespace MMABooksTests
         public void TestNewCustomerConstructor()
         {
             // not in Data Store - no code
-            // Should ask if there is more to this.
             Customer c = new Customer();
             Assert.AreEqual(0, c.CustomerID);
             Assert.AreEqual(string.Empty, c.Name);
@@ -108,8 +107,6 @@ namespace MMABooksTests
             Assert.AreEqual(c2.City, c.City);
             Assert.AreEqual(c2.State, c.State);
             Assert.AreEqual(c2.ZipCode, c.ZipCode);
-
-
         }
 
         [Test]
