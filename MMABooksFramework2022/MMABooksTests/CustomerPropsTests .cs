@@ -52,7 +52,7 @@ namespace MMABooksTests
         // string back into a CustomerProps object. Using
         // AreEqual tests to see if the fields of the
         // CustomerProps object are what they are
-        // supposed to be given the SON-formatted string.
+        // supposed to be given the JSON-formatted string.
         public void TestSetState()
         {
             string jsonString = props.GetState();
@@ -62,7 +62,8 @@ namespace MMABooksTests
             Assert.AreEqual(props.Name, newProps.Name);
             Assert.AreEqual(props.Address, newProps.Address);
             Assert.AreEqual(props.City, newProps.City);
-            Assert.AreEqual(newProps.ZipCode, newProps.ZipCode);
+            Assert.AreEqual(props.State, newProps.State);
+            Assert.AreEqual(props.ZipCode, newProps.ZipCode);
             Assert.AreEqual(props.ConcurrencyID, newProps.ConcurrencyID);
         }
 
@@ -80,7 +81,8 @@ namespace MMABooksTests
             Assert.AreEqual(props.Name, newProps.Name);
             Assert.AreEqual(props.Address, newProps.Address);
             Assert.AreEqual(props.City, newProps.City);
-            Assert.AreEqual(newProps.ZipCode, newProps.ZipCode);
+            Assert.AreEqual(props.State, newProps.State);
+            Assert.AreEqual(props.ZipCode, newProps.ZipCode);
             Assert.AreEqual(props.ConcurrencyID, newProps.ConcurrencyID);
         }
     }

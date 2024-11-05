@@ -54,8 +54,11 @@ namespace MMABooksTests
             // not in Data Store - no code
             // Should ask if there is more to this.
             Customer c = new Customer();
+            Assert.AreEqual(0, c.CustomerID);
             Assert.AreEqual(string.Empty, c.Name);
             Assert.AreEqual(string.Empty, c.Address);
+            Assert.AreEqual(string.Empty, c.City);
+            Assert.AreEqual(string.Empty, c.ZipCode);
             Assert.IsTrue(c.IsNew);
             Assert.IsFalse(c.IsValid);
         }
@@ -73,6 +76,7 @@ namespace MMABooksTests
         {
             // retrieves from Data Store
             Customer c = new Customer(1);
+            Assert.AreEqual(1, c.CustomerID);
             Assert.AreEqual("Molunguri, A", c.Name);
             Assert.AreEqual("1108 Johanna Bay Drive", c.Address);
             Assert.AreEqual("Birmingham", c.City);
@@ -98,8 +102,14 @@ namespace MMABooksTests
             c.ZipCode = "10001";
             c.Save();
             Customer c2 = new Customer(c.CustomerID);
+            Assert.AreEqual(c2.CustomerID, c.CustomerID);
             Assert.AreEqual(c2.Name, c.Name);
             Assert.AreEqual(c2.Address, c.Address);
+            Assert.AreEqual(c2.City, c.City);
+            Assert.AreEqual(c2.State, c.State);
+            Assert.AreEqual(c2.ZipCode, c.ZipCode);
+
+
         }
 
         [Test]
@@ -119,8 +129,12 @@ namespace MMABooksTests
             c.Save();
 
             Customer c2 = new Customer(1);
+            Assert.AreEqual(c2.CustomerID, c.CustomerID);
             Assert.AreEqual(c2.Name, c.Name);
             Assert.AreEqual(c2.Address, c.Address);
+            Assert.AreEqual(c2.City, c.City);
+            Assert.AreEqual(c2.State, c.State);
+            Assert.AreEqual(c2.ZipCode, c.ZipCode);
         }
 
         [Test]
@@ -145,17 +159,21 @@ namespace MMABooksTests
         // runs GetList to populate a Customer object list with all the
         // current Customer records from the database. Using AreEqual
         // to check if it has the right amount of records that should be
-        // in the database, then two more times to check two of the fields
-        // of the first Customer record in the list to see if the data was
-        // was correctly received from the database.
+        // in the database, then again to check the fields of the first
+        // Customer record in the list to see if the data was was correctly
+        // received from the database.
         public void TestGetList()
         {
             Customer c = new Customer();
             List<Customer> customers = (List<Customer>)c.GetList();
             Assert.AreEqual(696, customers.Count);
             // There ordered by Name by the procedure.
+            Assert.AreEqual(157, customers[0].CustomerID);
             Assert.AreEqual("Abeyatunge, Derek", customers[0].Name);
             Assert.AreEqual("1414 S. Dairy Ashford", customers[0].Address);
+            Assert.AreEqual("North Chili", customers[0].City);
+            Assert.AreEqual("NY", customers[0].State);
+            Assert.AreEqual("14514", customers[0].ZipCode);
         }
 
         [Test]
@@ -164,7 +182,7 @@ namespace MMABooksTests
         // tries to save a Customer record to the database.
         public void TestNoRequiredPropertiesNotSet()
         {
-            // not in Data Store - abbreviation and name must be provided
+            // not in Data Store - all fields must be provided
             Customer c = new Customer();
             Assert.Throws<Exception>(() => c.Save());
         }
@@ -179,6 +197,7 @@ namespace MMABooksTests
             Customer c = new Customer();
             Assert.Throws<Exception>(() => c.Save());
             c.Name = "Garber Newman";
+            c.Address = "123 N. New Road";
             Assert.Throws<Exception>(() => c.Save());
         }
 
@@ -186,12 +205,61 @@ namespace MMABooksTests
         // This test is used to check if it throws an
         // ArgumentOutOfRangeException when it tries to
         // set a field to an invalid value given it's
-        // validation.
-        public void TestInvalidPropertySet()
+        // validation. This is too long for the Name field.
+        public void TestInvalidNamePropertySet()
         {
             Customer c = new Customer();
             Assert.Throws<ArgumentOutOfRangeException>(() => c.Name = "abcdefghijklmnopqrstuoijshfghoiuhasdifhiasdfifsagifhghsidhfhksdfhkjhkljhlkjhlkjhlkjhlkjhlkjhlkjhhhhhe");
         }
+
+        [Test]
+        // This test is used to check if it throws an
+        // ArgumentOutOfRangeException when it tries to
+        // set a field to an invalid value given it's
+        // validation. This is too long for the Address field.
+        public void TestInvalidAddressPropertySet()
+        {
+            Customer c = new Customer();
+            Assert.Throws<ArgumentOutOfRangeException>(() => c.Address = "abcdefghijklmnopqrstuoijshfghoiuhasdifhiasdfadawaaw");
+        }
+
+        [Test]
+        // This test is used to check if it throws an
+        // ArgumentOutOfRangeException when it tries to
+        // set a field to an invalid value given it's
+        // validation. This is too long for the City field.
+        public void TestInvalidCityPropertySet()
+        {
+            Customer c = new Customer();
+            Assert.Throws<ArgumentOutOfRangeException>(() => c.City = "abcdefghijklmnopqrste");
+        }
+
+        [Test]
+        // This test is used to check if it throws an
+        // ArgumentOutOfRangeException when it tries to
+        // set a field to an invalid value given it's
+        // validation. This is too long for the State field.
+        public void TestInvalidStatePropertySet()
+        {
+            Customer c = new Customer();
+            Assert.Throws<ArgumentOutOfRangeException>(() => c.State = "dwd");
+        }
+
+        [Test]
+        // This test is used to check if it throws an
+        // ArgumentOutOfRangeException when it tries to
+        // set a field to an invalid value given it's
+        // validation. This is too long for the ZipCode field.
+        public void TestInvalidZipCodePropertySet()
+        {
+            Customer c = new Customer();
+            Assert.Throws<ArgumentOutOfRangeException>(() => c.ZipCode = "abcdefghijklmnoh");
+        }
+        // When it comes to the invalidPropertySet tests, too short
+        // can't be tested with how the properties are written with it
+        // not even allowing empty values to go though when there entered,
+        // and empty and wrong data types arn't tested because they are a 
+        // given that they won't work.
 
         [Test]
         // This tests to see if a concurrency issue will occur

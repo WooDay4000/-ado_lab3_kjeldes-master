@@ -81,10 +81,10 @@ namespace MMABooksDB
             // ProductID that the databased created for the
             // Product record.
             command.Parameters.Add("prodId", DBDbType.Int32);
-            command.Parameters.Add("ProdCode_p", DBDbType.VarChar);
-            command.Parameters.Add("Description_p", DBDbType.VarChar);
-            command.Parameters.Add("UnitPrice_p", DBDbType.Decimal);
-            command.Parameters.Add("OnHandQuantity_p", DBDbType.Int32);
+            command.Parameters.Add("prodCode_p", DBDbType.VarChar);
+            command.Parameters.Add("description_p", DBDbType.VarChar);
+            command.Parameters.Add("unitPrice_p", DBDbType.Decimal);
+            command.Parameters.Add("onHandQuantity_p", DBDbType.Int32);
             //... there are more parameters here
 
             // With this line being used to specify that the data is 
@@ -97,10 +97,10 @@ namespace MMABooksDB
             // in the ProductProps object to populate the
             // the specific felids that are going to be passed
             // to the stored procedure.
-            command.Parameters["ProdCode_p"].Value = props.ProductCode;
-            command.Parameters["Description_p"].Value = props.Description;
-            command.Parameters["UnitPrice_p"].Value = props.UnitPrice;
-            command.Parameters["OnHandQuantity_p"].Value = props.OnHandQuantity;
+            command.Parameters["prodCode_p"].Value = props.ProductCode;
+            command.Parameters["description_p"].Value = props.Description;
+            command.Parameters["unitPrice_p"].Value = props.UnitPrice;
+            command.Parameters["onHandQuantity_p"].Value = props.OnHandQuantity;
             //... and more values here
 
             try
@@ -202,8 +202,8 @@ namespace MMABooksDB
 
             command.CommandText = "usp_ProductSelect";
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add("prodID", DBDbType.Int32);
-            command.Parameters["prodID"].Value = (int)key;
+            command.Parameters.Add("prodId", DBDbType.Int32);
+            command.Parameters["prodId"].Value = (int)key;
 
             try
             {
@@ -289,10 +289,10 @@ namespace MMABooksDB
             DBCommand command = new DBCommand();
             command.CommandText = "usp_ProductUpdate";
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add("prodID", DBDbType.VarChar);
+            command.Parameters.Add("prodId", DBDbType.VarChar);
             command.Parameters.Add("description", DBDbType.VarChar);
             command.Parameters.Add("conCurrId", DBDbType.Int32);
-            command.Parameters["prodID"].Value = props.ProductID;
+            command.Parameters["prodId"].Value = props.ProductID;
             command.Parameters["description"].Value = props.Description;
             command.Parameters["conCurrId"].Value = props.ConcurrencyID;
 

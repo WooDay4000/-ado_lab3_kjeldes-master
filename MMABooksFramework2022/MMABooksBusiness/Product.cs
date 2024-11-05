@@ -116,7 +116,7 @@ namespace MMABooksBusiness
             {
                 if (!(value == ((ProductProps)mProps).UnitPrice))
                 {
-                    if (value >= 1.0000m && value <= 999999999.9999m)
+                    if (value > 0m && value <= 99999999.9999m)
                     {
                         mRules.RuleBroken("UnitPrice", false);
                         ((ProductProps)mProps).UnitPrice = value;
@@ -125,7 +125,7 @@ namespace MMABooksBusiness
 
                     else
                     {
-                        throw new ArgumentOutOfRangeException("UnitPrice must be no more than 999999999.9999m characters long.");
+                        throw new ArgumentOutOfRangeException("UnitPrice must be no more than 99999999.9999m characters long.");
                     }
                 }
             }
@@ -194,7 +194,8 @@ namespace MMABooksBusiness
         // valid data. When a valid value is assigned to one
         // of these fields, RuleBroken is updated to false,
         // meaning the field now satisfies the rule and the
-        // object can be considered valid for saving.
+        // object can be considered valid for saving if all
+        // the other RuleBroken are false as well.
         protected override void SetRequiredRules()
         {
             mRules.RuleBroken("ProductCode", true);

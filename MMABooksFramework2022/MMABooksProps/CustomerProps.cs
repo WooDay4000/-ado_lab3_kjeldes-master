@@ -81,11 +81,11 @@ namespace MMABooksProps
         // in this code.
         public void SetState(DBDataReader dr)
         {
-            this.CustomerID = (int)dr["CustomerID"];
+            this.CustomerID = (Int32)dr["CustomerID"];
             this.Name = (string)dr["Name"];
             this.Address = (string)dr["Address"];
             this.City = (string)dr["City"];
-            this.State = (string)dr["State"];
+            this.State = ((string)dr["State"]).Trim();
             this.ZipCode = (string)dr["ZipCode"];
             this.ConcurrencyID = (Int32)dr["ConcurrencyID"];
         }

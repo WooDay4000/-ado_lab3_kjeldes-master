@@ -28,10 +28,18 @@ namespace MMABooksTests
         public void ResetData()
         {
             db = new CustomerDB();
+
+            // Having the first procedure run.
             DBCommand command = new DBCommand();
-            command.CommandText = "usp_testingResetData";
+            command.CommandText = "usp_testingResetCustomer1Data";
             command.CommandType = CommandType.StoredProcedure;
             db.RunNonQueryProcedure(command);
+
+            // Having the second procedure run.
+            DBCommand command2 = new DBCommand();
+            command2.CommandText = "usp_testingResetCustomer2Data";
+            command2.CommandType = CommandType.StoredProcedure;
+            db.RunNonQueryProcedure(command2);
         }
 
         [Test]
@@ -45,6 +53,10 @@ namespace MMABooksTests
             CustomerProps p = (CustomerProps)db.Retrieve(1);
             Assert.AreEqual(1, p.CustomerID);
             Assert.AreEqual("Molunguri, A", p.Name);
+            Assert.AreEqual("1108 Johanna Bay Drive", p.Address);
+            Assert.AreEqual("Birmingham", p.City);
+            Assert.AreEqual("AL", p.State);
+            Assert.AreEqual("35216-6909", p.ZipCode);
         }
 
         [Test]
@@ -103,6 +115,20 @@ namespace MMABooksTests
             p = (CustomerProps)db.Retrieve(1);
             Assert.AreEqual("Rudy Red", p.Name);
         }
+
+        [Test]
+        // This test is used to see if the Update method won't
+        // save a change to a record, when a specified field's
+        // value is way too long.
+        public void TestUpdateFieldTooLong()
+        {
+            CustomerProps p = (CustomerProps)db.Retrieve(1);
+            p.Name = "abcdefghijklmnopqrstuoijshfghoiuhasdifhiasdfifsagifhghsidhfhksdfhkjhkljhlkjhlkjhlkjhlkjhlkjhlkjhhhhhe";
+            Assert.Throws<MySqlException>(() => db.Update(p));
+        }
+        // Don't need to do a test on the updated field being too small
+        // or wrong data type, because MySQL is only looking for a certain
+        // datatype and allows for small or even empty fields.
 
         [Test]
         // This method is used to test the Create method from

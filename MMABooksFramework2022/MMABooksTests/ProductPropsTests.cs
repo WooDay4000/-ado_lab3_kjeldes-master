@@ -22,6 +22,7 @@ namespace MMABooksTests
         public void Setup()
         {
             props = new ProductProps();
+            props.ProductID = 1;
             props.ProductCode = "TYHN";
             props.Description = "Description About Coding Book";
             props.UnitPrice = 10.00m;
@@ -40,6 +41,7 @@ namespace MMABooksTests
         {
             string jsonString = props.GetState();
             Console.WriteLine(jsonString);
+            Assert.IsTrue(jsonString.Contains(props.ProductID.ToString()));
             Assert.IsTrue(jsonString.Contains(props.ProductCode));
             Assert.IsTrue(jsonString.Contains(props.Description));
             Assert.IsTrue(jsonString.Contains(props.UnitPrice.ToString()));
@@ -53,16 +55,18 @@ namespace MMABooksTests
         // string back into a ProductProps object. Using
         // AreEqual tests to see if the fields of the
         // ProductProps object are what they are
-        // supposed to be given the SON-formatted string.
+        // supposed to be given the JSON-formatted string.
         public void TestSetState()
         {
             string jsonString = props.GetState();
             ProductProps newProps = new ProductProps();
             newProps.SetState(jsonString);
+            Assert.AreEqual(props.ProductID, newProps.ProductID);
             Assert.AreEqual(props.ProductCode, newProps.ProductCode);
             Assert.AreEqual(props.Description, newProps.Description);
             Assert.AreEqual(props.UnitPrice, newProps.UnitPrice);
             Assert.AreEqual(props.OnHandQuantity, newProps.OnHandQuantity);
+            Assert.AreEqual(props.ConcurrencyID, newProps.ConcurrencyID);
         }
 
         [Test]
@@ -75,10 +79,12 @@ namespace MMABooksTests
         public void TestClone()
         {
             ProductProps newProps = (ProductProps)props.Clone();
+            Assert.AreEqual(props.ProductID, newProps.ProductID);
             Assert.AreEqual(props.ProductCode, newProps.ProductCode);
             Assert.AreEqual(props.Description, newProps.Description);
             Assert.AreEqual(props.UnitPrice, newProps.UnitPrice);
             Assert.AreEqual(props.OnHandQuantity, newProps.OnHandQuantity);
+            Assert.AreEqual(props.ConcurrencyID, newProps.ConcurrencyID);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace MMABooksProps
         public int ProductID { get; set; } = 0;
         public string ProductCode { get; set; } = "";
         public string Description { get; set; } = "";
-        public decimal UnitPrice { get; set; } = 0.00m;
+        public decimal UnitPrice { get; set; } = 0m;
         public int OnHandQuantity { get; set; } = 0;
 
         /// <summary>
@@ -79,11 +79,11 @@ namespace MMABooksProps
         // in this code.
         public void SetState(DBDataReader dr)
         {
-            this.ProductID = (int)dr["ProductID"];
+            this.ProductID = (Int32)dr["ProductID"];
             this.ProductCode = (string)dr["ProductCode"];
             this.Description = (string)dr["Description"];
             this.UnitPrice = (decimal)dr["UnitPrice"];
-            this.OnHandQuantity = (int)dr["OnHandQuantity"];
+            this.OnHandQuantity = (Int32)dr["OnHandQuantity"];
             this.ConcurrencyID = (Int32)dr["ConcurrencyID"];
         }
     }

@@ -225,7 +225,8 @@ namespace MMABooksBusiness
         // valid data. When a valid value is assigned to one
         // of these fields, RuleBroken is updated to false,
         // meaning the field now satisfies the rule and the
-        // object can be considered valid for saving.
+        // object can be considered valid for saving if all
+        // the other RuleBroken are false as well.
         protected override void SetRequiredRules()
         {
             mRules.RuleBroken("Name", true);

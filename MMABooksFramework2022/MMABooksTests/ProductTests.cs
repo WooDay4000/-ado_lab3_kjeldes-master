@@ -45,8 +45,11 @@ namespace MMABooksTests
         {
             // not in Data Store - no code
             Product p = new Product();
+            Assert.AreEqual(0, p.ProductID);
             Assert.AreEqual(string.Empty, p.ProductCode);
             Assert.AreEqual(string.Empty, p.Description);
+            Assert.AreEqual(0m, p.UnitPrice);
+            Assert.AreEqual(0, p.OnHandQuantity);
             Assert.IsTrue(p.IsNew);
             Assert.IsFalse(p.IsValid);
         }
@@ -65,6 +68,7 @@ namespace MMABooksTests
         {
             // retrieves from Data Store
             Product p = new Product(1);
+            Assert.AreEqual(1, p.ProductID);
             Assert.AreEqual("A4CS", p.ProductCode);
             Assert.AreEqual("Murach's ASP.NET 4 Web Programming with C# 2010", p.Description);
             Assert.AreEqual(56.5000, p.UnitPrice);
@@ -88,8 +92,11 @@ namespace MMABooksTests
             p.OnHandQuantity = 350;
             p.Save();
             Product p2 = new Product(p.ProductID);
+            Assert.AreEqual(p2.ProductID, p.ProductID);
             Assert.AreEqual(p2.ProductCode, p.ProductCode);
             Assert.AreEqual(p2.Description, p.Description);
+            Assert.AreEqual(p2.UnitPrice, p.UnitPrice);
+            Assert.AreEqual(p2.OnHandQuantity, p.OnHandQuantity);
         }
 
         [Test]
@@ -109,8 +116,11 @@ namespace MMABooksTests
             p.Save();
 
             Product p2 = new Product(1);
+            Assert.AreEqual(p2.ProductID, p.ProductID);
             Assert.AreEqual(p2.ProductCode, p.ProductCode);
             Assert.AreEqual(p2.Description, p.Description);
+            Assert.AreEqual(p2.UnitPrice, p.UnitPrice);
+            Assert.AreEqual(p2.OnHandQuantity, p.OnHandQuantity);
         }
 
         [Test]
@@ -135,17 +145,20 @@ namespace MMABooksTests
         // runs GetList to populate a Product object list with all the
         // current Product records from the database. Using AreEqual
         // to check if it has the right amount of records that should be
-        // in the database, then two more times to check two of the fields
-        // of the first Product record in the list to see if the data was
-        // was correctly received from the database.
+        // in the database, then again to check the fields of the first
+        // Product record in the list to see if the data was was correctly
+        // received from the database.
         public void TestGetList()
         {
             Product p = new Product();
             List<Product> products = (List<Product>)p.GetList();
             Assert.AreEqual(16, products.Count);
             // There ordered by ProductCode by the procedure.
+            Assert.AreEqual(1, products[0].ProductID);
             Assert.AreEqual("A4CS", products[0].ProductCode);
             Assert.AreEqual("Murach's ASP.NET 4 Web Programming with C# 2010", products[0].Description);
+            Assert.AreEqual(56.50m, products[0].UnitPrice);
+            Assert.AreEqual(4637, products[0].OnHandQuantity);
         }
 
         [Test]
@@ -168,6 +181,7 @@ namespace MMABooksTests
             // not in Data Store - abbreviation and name must be provided
             Product p = new Product();
             Assert.Throws<Exception>(() => p.Save());
+            p.ProductCode = "BHJK";
             p.Description = "Something about Coding";
             Assert.Throws<Exception>(() => p.Save());
         }
@@ -176,12 +190,39 @@ namespace MMABooksTests
         // This test is used to check if it throws an
         // ArgumentOutOfRangeException when it tries to
         // set a field to an invalid value given it's
-        // validation.
-        public void TestInvalidPropertySet()
+        // validation. This is too long for the ProductCode field.
+        public void TestInvalidProductCodePropertySet()
+        {
+            Product p = new Product();
+            Assert.Throws<ArgumentOutOfRangeException>(() => p.ProductCode = "abcdefghijf");
+        }
+
+        [Test]
+        // This test is used to check if it throws an
+        // ArgumentOutOfRangeException when it tries to
+        // set a field to an invalid value given it's
+        // validation. This is too long for the Description field.
+        public void TestInvalidDescriptionPropertySet()
         {
             Product p = new Product();
             Assert.Throws<ArgumentOutOfRangeException>(() => p.Description = "abcdefghijklmnopqrstuoijshfghoiuhasdifhiaawdawdaddw");
         }
+
+        [Test]
+        // This test is used to check if it throws an
+        // ArgumentOutOfRangeException when it tries to
+        // set a field to an invalid value given it's
+        // validation. This is too big for the UnitPrice field.
+        public void TestInvalidUnitPricePropertySet()
+        {
+            Product p = new Product();
+            Assert.Throws<ArgumentOutOfRangeException>(() => p.UnitPrice = 199999999.9999m);
+        }
+        // When it comes to the invalidPropertySet tests, too short
+        // can't be tested with how the properties are written with it
+        // not even allowing empty values to go though when there entered,
+        // and empty and wrong data types arn't tested because they are a 
+        // given that they won't work.
 
         [Test]
         // This tests to see if a concurrency issue will occur

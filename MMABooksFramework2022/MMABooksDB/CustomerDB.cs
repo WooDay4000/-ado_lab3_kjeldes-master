@@ -121,11 +121,11 @@ namespace MMABooksDB
             // CustomerID that the databased created for the
             // Customer record.
             command.Parameters.Add("custId", DBDbType.Int32);
-            command.Parameters.Add("Name_p", DBDbType.VarChar);
-            command.Parameters.Add("Address_p", DBDbType.VarChar);
-            command.Parameters.Add("City_p", DBDbType.VarChar);
-            command.Parameters.Add("State_p", DBDbType.VarChar);
-            command.Parameters.Add("ZipCode_p", DBDbType.VarChar);
+            command.Parameters.Add("name_p", DBDbType.VarChar);
+            command.Parameters.Add("address_p", DBDbType.VarChar);
+            command.Parameters.Add("city_p", DBDbType.VarChar);
+            command.Parameters.Add("state_p", DBDbType.VarChar);
+            command.Parameters.Add("zipCode_p", DBDbType.VarChar);
             //... there are more parameters here
 
             // With this line being used to specify that the data is 
@@ -138,11 +138,11 @@ namespace MMABooksDB
             // in the CustomerProps object to populate the
             // the specific felids that are going to be passed
             // to the stored procedure.
-            command.Parameters["Name_p"].Value = props.Name;
-            command.Parameters["Address_p"].Value = props.Address;
-            command.Parameters["City_p"].Value = props.City;
-            command.Parameters["State_p"].Value = props.State;
-            command.Parameters["ZipCode_p"].Value = props.ZipCode;
+            command.Parameters["name_p"].Value = props.Name;
+            command.Parameters["address_p"].Value = props.Address;
+            command.Parameters["city_p"].Value = props.City;
+            command.Parameters["state_p"].Value = props.State;
+            command.Parameters["zipCode_p"].Value = props.ZipCode;
             //... and more values here
 
             try
@@ -244,8 +244,8 @@ namespace MMABooksDB
 
             command.CommandText = "usp_CustomerSelect";
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add("custID", DBDbType.Int32);
-            command.Parameters["custID"].Value = (int)key;
+            command.Parameters.Add("custId", DBDbType.Int32);
+            command.Parameters["custId"].Value = (int)key;
 
             try
             {
@@ -331,10 +331,10 @@ namespace MMABooksDB
             DBCommand command = new DBCommand();
             command.CommandText = "usp_CustomerUpdate";
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add("custID", DBDbType.VarChar);
+            command.Parameters.Add("custId", DBDbType.VarChar);
             command.Parameters.Add("name", DBDbType.VarChar);
             command.Parameters.Add("conCurrId", DBDbType.Int32);
-            command.Parameters["custID"].Value = props.CustomerID;
+            command.Parameters["custId"].Value = props.CustomerID;
             command.Parameters["name"].Value = props.Name;
             command.Parameters["conCurrId"].Value = props.ConcurrencyID;
 

@@ -94,6 +94,20 @@ namespace MMABooksTests
         }
 
         [Test]
+        // This test is used to see if the Update method won't
+        // save a change to a record, when a specified field's
+        // value is way too long.
+        public void TestUpdateFieldTooLong()
+        {
+            ProductProps p = (ProductProps)db.Retrieve(1);
+            p.Description = "abcdefghijklmnopqrstuoijshfghoiuhasdifhiasawdawdawd";
+            Assert.Throws<MySqlException>(() => db.Update(p));
+        }
+        // Don't need to do a test on the updated field being too small
+        // or wrong data type, because MySQL is only looking for a certain
+        // datatype and allows for small or even empty fields.
+
+        [Test]
         // This method is used to test the Create method from
         // the ProductDB class, where we populate the fields
         // of a ProductProps object which then we run it though
